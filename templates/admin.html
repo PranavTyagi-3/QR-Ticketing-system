@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        .gradient-custom {
+        /* fallback for old browsers */
+        background: #6a11cb;
+
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: -webkit-linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
+
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1))
+        }
+        .event{
+            width: 70vw;
+            margin: auto;
+            padding: 10px;
+            border-radius: 0px 0px 5px 5px;
+        }
+        .main-field{
+            margin-top: 30px;
+            padding:20px;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body class="gradient-custom">
+    <div class="event bg-dark text-white ">
+        <h2 class="fw-bold mb-2 text-uppercase text-center">{{ event }}</h2>
+        <br/>
+        <div class="d-flex justify-content-between align-items-center">
+        <button class="btn btn-outline-light btn-lg px-5" id="copyButton">Scanner Link
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16">
+                <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+            </svg>
+        </button> 
+        <button class="btn btn-outline-none btn-lg px-5 text-white">Total Registered: {{ count }}</button>
+        </div>
+    </div>
+    
+    <div class="container bg-white text-white main-field">
+        <div class="row">
+            <div class="col-12 col-md-6 d-flex flex-column align-items-center">
+                <div class="mb-3">
+                    <button class="btn btn-info" id="addParticipantsBtn">Add Participants</button>
+                </div>
+                <div id="fileUploadDiv" style="display: none; text-align: center;">
+                    <h4 class="text-dark">Upload Participants File</h4>
+                    <form enctype="multipart/form-data" method="post">
+                        <input type="file" name="participantsFile" accept=".xlsx">
+                        <button type="submit">Upload</button>
+                    </form>
+                </div>
+            </div>
+    
+            <div class="col-12 col-md-6 d-flex flex-column align-items-center">
+                <a href="{{ url_for('download') }}">
+                <button class="btn btn-info">Download Attendance</button>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <p id="textToCopy" style="display: none;">{{ scanner_url }}</p>
+    
+    <!-- Hidden div initially -->
+    
+
+    <script>
+        // Get references to the button and the hidden div
+        const addParticipantsBtn = document.getElementById("addParticipantsBtn");
+        const fileUploadDiv = document.getElementById("fileUploadDiv");
+    
+        // Add an event listener to the button
+        addParticipantsBtn.addEventListener("click", () => {
+            // Check the current state of fileUploadDiv
+            if (fileUploadDiv.style.display === "block" || fileUploadDiv.style.display === "") {
+                // If it's visible or not set, hide it
+                fileUploadDiv.style.display = "none";
+            } else {
+                // If it's hidden, show it
+                fileUploadDiv.style.display = "block";
+            }
+        });
+
+
+        const copyButton = document.getElementById("copyButton");
+        const textToCopy = "{{ scanner_url }}";  // Replace with the Flask variable that holds the text
+
+        copyButton.addEventListener("click", function() {
+            // Create a temporary input element
+            const inputElement = document.createElement("input");
+            inputElement.setAttribute("value", textToCopy);
+            document.body.appendChild(inputElement);
+
+            // Select and copy the text to the clipboard
+            inputElement.select();
+            document.execCommand("copy");
+
+            // Remove the temporary input element
+            document.body.removeChild(inputElement);
+
+            // Update the button text
+            copyButton.innerText = "Text Copied! Share Link";
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
