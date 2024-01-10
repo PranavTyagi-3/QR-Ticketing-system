@@ -10,6 +10,10 @@ app.secret_key = 'TH15_1S_@_S3CR3T_K3Y'
 UPLOAD_FOLDER = "static/Uploads"
 ATTENDANCE_LIST = "static/Attendance"
 
+@app.route('/home',methods=("GET","POST"))
+def home():
+    if request.method=="POST":
+        
 @app.route('/login',methods=("GET","POST"))
 def login():
     if request.method=="POST":
