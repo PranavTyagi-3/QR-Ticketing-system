@@ -2,7 +2,7 @@ import qrcode
 from PIL import Image, ImageDraw, ImageFont
 import openpyxl
 
-base_image_path = "static\Tickets\Ticket.png"
+base_image_path = "static/Ticket_Templates/"
 base_image = Image.open(base_image_path)
 
 font_size = 35
@@ -40,7 +40,7 @@ for reg_number, name in data_names.items():
     draw.text(name_position, name, fill=(255, 255, 255), font=font)
     draw.text(reg_number_position, reg_number, fill=(255, 255, 255), font=font)
 
-    output_path = fr"D:\Ideation\{reg_number}.png"
+    output_path = fr"Generated Tickets/{reg_number}.png"
     final_image.save(output_path)
 
 print("Tickets generated with bolded name and registration number!")
