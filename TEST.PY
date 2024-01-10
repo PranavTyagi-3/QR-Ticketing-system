@@ -3,7 +3,12 @@ import sqlite3
 conn= sqlite3.connect('QRBuddy.db')
 cursor = conn.cursor()
 
-cursor.execute("""create table event (id INTEGER PRIMARY KEY AUTOINCREMENT,
+cursor.execute("""create table users (id INTEGER PRIMARY KEY AUTOINCREMENT,
+               FirstName varchar(100),
+               LastName varchar(100),
+               Password varchar(100),
+               Code varchar(100),
+               Contact varchar(10),
                ClubName varchar(100),
                 EventName varchar(100),
                Email varchar(50),
