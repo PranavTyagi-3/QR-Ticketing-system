@@ -13,6 +13,11 @@ ATTENDANCE_LIST = "static/Attendance"
 @app.route('/home',methods=("GET","POST"))
 def home():
     if request.method=="POST":
+        first_name=request.form['first_name']
+        last_name=request.form['last_name']
+        email=request.form['email']
+        passwd = request.form['password']
+        username = request.form['Club Name']
         
 @app.route('/login',methods=("GET","POST"))
 def login():
