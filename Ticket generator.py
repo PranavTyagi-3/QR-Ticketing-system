@@ -2,16 +2,13 @@ import qrcode
 from PIL import Image, ImageDraw, ImageFont
 import openpyxl
 
-# Load the base image
 base_image_path = "static\Tickets\Ticket.png"
 base_image = Image.open(base_image_path)
 
-# Define font and size for text
 font_size = 35
 font = ImageFont.truetype("arialbd.ttf", font_size)
 
-# Read data from the Excel sheet
-excel_file_path = "data.xlsx"  # Replace with the actual path to your Excel file
+excel_file_path = "data.xlsx"  
 data_names = {}
 
 workbook = openpyxl.load_workbook(excel_file_path)
@@ -21,7 +18,6 @@ for row in sheet.iter_rows(values_only=True):
     reg_number, name = row
     data_names[reg_number] = name
 
-# Generate tickets
 for reg_number, name in data_names.items():
     qr = qrcode.QRCode(
         version=2,
