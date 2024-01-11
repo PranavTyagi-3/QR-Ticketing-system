@@ -9,7 +9,7 @@ from fpdf import FPDF
 
 # app = Flask(__name__)
 
-def send_certificates():
+def send_certificates(excel_file_path,):
     # Gmail SMTP server settings
     smtp_server = 'smtp.gmail.com'
     smtp_port = 587
@@ -17,8 +17,7 @@ def send_certificates():
     smtp_password = 'xeysguoyoktavebj'  # Generate an app password from your Google Account settings
 
     # Input Excel file path
-    excel_file_path = 'static/data/data.xlsx'  # Replace with your actual Excel file path
-
+    # excel_file_path = 'static/data/data.xlsx'  # Replace with your actual Excel file path
     try:
         # Read data from Excel into a DataFrame
         df = pd.read_excel(excel_file_path)
@@ -67,7 +66,7 @@ def send_certificates():
                 er.append(pdf_filename)
 
         # Generate a text file to track emails sent
-        with open('<FLASK_APP_PATH>/email_status.txt', 'w') as status_file:  # Update the path accordingly
+        with open('static/email_status.txt', 'w') as status_file:  # Update the path accordingly
             for email, pdf_filename in recipient_data.items():
                 status = "True" if pdf_filename not in er else "False"
                 status_file.write(f"{pdf_filename}: {status}\n")

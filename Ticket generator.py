@@ -1,20 +1,15 @@
-# from flask import Flask, render_template
 import qrcode
 from PIL import Image, ImageDraw, ImageFont
 import openpyxl
 
-# app = Flask(__name__)
 
-def generate_tickets():
-    base_image_path = "static/Ticket_Templates/"
+def generate_tickets(base_image_path,excel_file_path):
+    # base_image_path = "static/Ticket_Templates/" #path
     base_image = Image.open(base_image_path)
-
     font_size = 35
     font = ImageFont.truetype("arialbd.ttf", font_size)
-
-    excel_file_path = "static/Uploads/"  
+    # excel_file_path = "static/Uploads/"  #path
     data_names = {}
-
     workbook = openpyxl.load_workbook(excel_file_path)
     sheet = workbook.active
 
@@ -48,12 +43,3 @@ def generate_tickets():
         final_image.save(output_path)
 
     print("Tickets generated with bolded name and registration number!")
-
-# # Define a Flask route for ticket generation
-# @app.route('/generate_tickets')
-# def generate_tickets_route():
-#     generate_tickets()
-#     return "Tickets generated with bolded name and registration number!"
-
-# if __name__ == '__main__':
-#     app.run(debug=True)
