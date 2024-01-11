@@ -1,7 +1,7 @@
 # from flask import Flask, render_template
-# import qrcode
-# from PIL import Image, ImageDraw, ImageFont
-# import openpyxl
+import qrcode
+from PIL import Image, ImageDraw, ImageFont
+import openpyxl
 
 # app = Flask(__name__)
 
@@ -12,7 +12,7 @@ def generate_tickets():
     font_size = 35
     font = ImageFont.truetype("arialbd.ttf", font_size)
 
-    excel_file_path = "data.xlsx"  
+    excel_file_path = "static/Uploads/"  
     data_names = {}
 
     workbook = openpyxl.load_workbook(excel_file_path)
