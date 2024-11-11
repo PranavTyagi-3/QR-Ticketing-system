@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VITronix Ticketing System</title>
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    #responseMessage{
+        position: fixed; 
+        top: 40%; 
+        left: 50%; 
+        transform: translateX(-50%); 
+        background-color: rgb(0 0 0 / 90%); 
+        padding: 76px; 
+        border: 1px solid #ccc; 
+        display: none; 
+        z-index: 9999; 
+        color: white; 
+        font-size: 2rem;
+    }
+    #reader{
+        margin: auto;
+    }
+
+</style>
+<body>
+    <div id="responseMessage">
+        <p>Ok ?</p>
+    </div>
+    <div id="reader" style="width: 100%; min-height: 300px; text-align: center; position: relative;"></div>
+    <p style="text-align: center; margin: 30px;"> OR </p>
+    <input id="manualInput" type="text" placeholder="Enter Registration No" style="
+    margin: auto;
+    display: flex;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+
+">
+    <button id="submitBtn" onclick="submitData()" style="
+     all: unset;
+    padding: 20px;
+    margin: auto;
+    display: flex;
+    background-color: bisque;
+">Submit</button>
+    <script>
+        const responseMessageDiv = document.getElementById('responseMessage');
+        responseMessageDiv.addEventListener('click', () => {
+            responseMessageDiv.style.display = 'none';
+        });
+        function onScanSuccess(decodedText, decodedResult) {
+            // handle the scanned code as you like, for example:
+            console.log(`Code matched = ${decodedText}`, decodedResult);
+            
+            // Send the scanned QR code data to Flask backend
+            sendDataToServer(decodedText);
+        }
+        
+        function onScanFailure(error) {
+            // handle scan failure, usually better to ignore and keep scanning.
+            // for example:
+            console.warn(`Code scan error = ${error}`);
+        }
+
+        function sendDataToServer(data) {
+            const currentTime = new Date();
+            const tn = "{{ id }}"+"T";
+            console.log(tn);
+            console.log(data);
+        fetch('/process_data', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ data: data, table : tn , time: currentTime}), // Adjust the data you want to send
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Response from server:', data);
+            showResponse(data.message); // Display the response message
+        })
+        .catch(error => {
+            console.error('Error sending data to server:', error);
+        });
+    }
+
+    function showResponse(message) {
+        const responseMessage = document.getElementById('responseMessage');
+    
+        const words = message.split(' ');
+        // Use innerHTML to display each word on a separate line
+        responseMessage.innerHTML = words.join('<br>');
+        responseMessage.style.display = 'block';
+        responseMessage.style.textAlign = 'center';
+        if (words[0]=="Accepted!"){
+            responseMessage.style.backgroundColor = "rgb(0 50 0 / 90%)"
+        }
+        else{
+            responseMessage.style.backgroundColor = "rgb(50 0 0 / 90%)"
+        }
+    }
+
+        function submitData() {
+            const manualInput = document.getElementById('manualInput').value;
+            if (manualInput) {
+                sendDataToServer(manualInput);
+            }
+        }
+
+        let html5QrcodeScanner = new Html5QrcodeScanner(
+            "reader",
+            { fps: 24, qrbox: { width: 450, height: 450 } },
+            /* verbose= */ false);
+        html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+    </script>
+</body>
+</html>

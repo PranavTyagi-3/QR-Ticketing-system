@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR-Buddy</title>
+</head>
+<style>
+
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body{
+        background: linear-gradient(to right, rgb(34, 202, 239), rgb(2, 89, 118));
+    }
+    .heading{
+        text-align: center;
+        color: white;
+        padding: 30px;
+    }
+    .main{
+        height: 70vh;
+        width: 80vw;
+        margin: auto;
+        display: flex;
+    }
+    .carousel{
+        height: 100%;
+        width: 30%;
+        background-color: rgb(0, 128, 255);
+        overflow: hidden;
+    }
+    .carousel img{
+        height: 100%;
+        min-width: 100%;
+    }
+    .signup{
+        height: 100%;
+        width: 70%;
+        background-color: #FFFFFFE8;
+        padding: 20px;
+        box-shadow: 0px 4px 4px 0px #00000040;
+    }
+    .signup h2{
+        font-size: 2em;
+        margin: 0px 0px 20px 0px;
+    }
+    form input{
+        background-color: #D2D2D294;
+        border-radius: 7px;
+        border: 1px solid #9B9B9B;
+        padding: 10px;
+        color: #737373;
+        margin: 10px 5px;
+        width: 90%;
+        font-size: 1em;
+    }
+    .name input{
+        width: 45%;
+        margin: 5px 5px;
+    }
+    form button{
+        background: linear-gradient(0deg, #117BF9, #117BF9),
+            linear-gradient(0deg, #9B9B9B, #9B9B9B);
+        border: 1px solid #9B9B9B;
+        border-radius: 7px;
+        color: white;
+        font-size: 1em;
+        padding: 10px;
+        width: 90%;
+        margin: auto;
+        margin-left: 5px;
+    }
+    hr{
+        margin: 30px 0px;
+    }
+    .other-opt{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    .other-opt p{
+        margin: 10px;
+    }
+    .google{
+        background: #DB4437;
+        border: 0px;
+        border-radius: 25px;
+        color: white;
+        padding: 1em;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .google svg{
+        margin-right: 10px;
+    }
+</style>
+<body>
+    <h1 class="heading">QR Buddy</h1>
+    
+    <div class="main">
+        <div class="carousel">
+            <img src="..\static\imgs\prev.png">
+        </div>
+        <div class="signup">
+            <h2>Sign Up</h2>
+            <form method="POST">
+                <div class="name">
+                    <input type="text" name="first_name" placeholder="First Name" required>
+                    <input type="text" name="last_name" placeholder="Last Name" required>
+                </div>
+                <input type="email" name="email" placeholder="Email" required>
+                <br>
+                <input type="password" name="password" placeholder="Password" required>
+                <br>
+                <input type="text" name="Event_Name" placeholder="Event Name" pattern="[A-Za-z0-9]+" required>
+                <br>
+                <button type="submit">Create Account</button>
+            </form>
+            <hr>
+            <div class="other-opt">
+                
+                <p>Already have an account? <a href="{{ url_for('login') }}">Sign in</a></p>
+            </div>
+            
+        </div>
+    </div>
+</body>
+</html>
